@@ -99,43 +99,7 @@
                                     <th>ACTION</th>
                                  </tr>
                               </thead>
-                              <tbody>
-                                 <tr>
-                                    <td>Michael Right</td>
-                                    <td>Bogor, 28 November 2005</td>
-                                    <td>Laki-laki</td>
-                                    <td>Bogor, Jawa Barat</td>
-                                    <td>
-                                       <button class="btn btn-warning" data-id="1" data-bs-target="#edit-form"
-                                          data-bs-toggle="modal">Edit</button>
-                                       <button class="btn btn-danger" data-bs-target="#delete-data"
-                                       data-bs-toggle="modal">Hapus</button>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td>Morgan Vanblum</td>
-                                    <td>Jakarta, 3 Agustus 2004</td>
-                                    <td>Laki-laki</td>
-                                    <td>Jakarta, Jawa Barat</td>
-                                    <td>
-                                       <button class="btn btn-warning" data-id="2" data-bs-target="#edit-form"
-                                          data-bs-toggle="modal">Edit</button>
-                                       <button class="btn btn-danger" data-bs-target="#delete-data"
-                                       data-bs-toggle="modal">Hapus</button>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td>Tiffani Blogz</td>
-                                    <td>Yogyakarta, 18 April 2005</td>
-                                    <td>Perempuan</td>
-                                    <td>Jakarta, Jawa Tengah</td>
-                                    <td>
-                                       <button class="btn btn-warning" data-id="3" data-bs-target="#edit-form"
-                                          data-bs-toggle="modal">Edit</button>
-                                       <button class="btn btn-danger" data-bs-target="#delete-data"
-                                       data-bs-toggle="modal">Hapus</button>
-                                    </td>
-                                 </tr>
+                              <tbody id="table-mahasiswa">
                               </tbody>
                            </table>
                         </div>
@@ -167,21 +131,21 @@
                   <div class="form-group">
                      <label for="tempat-lahir">Tempat Lahir: </label>
                      <input type="text" placeholder="Tempat Lahir..." class="form-control" id="tempat-lahir"
-                        name="tempat-lahir">
+                        name="tempat_lahir">
                   </div>
                   <div class="form-group">
                      <label for="tanggal-lahir">Tanggal Lahir: </label>
                      <input type="date" placeholder="Tanggal Lahir" class="form-control" id="tanggal-lahir"
-                        name="tanggal-lahir">
+                        name="tgl_lahir">
                   </div>
                   <div class="form-group">
                      <label>Jenis Kelamin: </label>
                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="jk" id="laki-laki">
+                        <input class="form-check-input" type="radio" name="jk" id="laki-laki" value=1>
                         <label class="form-check-label" for="laki-laki">Laki-Laki</label>
                      </div>
                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="jk" id="perempuan">
+                        <input class="form-check-input" type="radio" name="jk" id="perempuan" value=2>
                         <label class="form-check-label" for="perempuan">Perempuan</label>
                      </div>
                   </div>
@@ -213,7 +177,7 @@
                   <i data-feather="x"></i>
                </button>
             </div>
-            <form action="#">
+            <form action="#" id="form-tambah">
                <div class="modal-body">
                   <div class="form-group">
                      <label for="nama">Nama: </label>
@@ -222,21 +186,21 @@
                   <div class="form-group">
                      <label for="tempat-lahir">Tempat Lahir: </label>
                      <input type="text" placeholder="Tempat Lahir..." class="form-control" id="tempat-lahir"
-                        name="tempat-lahir">
+                        name="tempat_lahir">
                   </div>
                   <div class="form-group">
                      <label for="tanggal-lahir">Tanggal Lahir: </label>
                      <input type="date" placeholder="Tanggal Lahir" class="form-control" id="tanggal-lahir"
-                        name="tanggal-lahir">
+                        name="tgl_lahir">
                   </div>
                   <div class="form-group">
                      <label>Jenis Kelamin: </label>
                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="jk" id="laki-laki">
+                        <input class="form-check-input" type="radio" name="jk" id="laki-laki" value=1>
                         <label class="form-check-label" for="laki-laki">Laki-Laki</label>
                      </div>
                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="jk" id="perempuan">
+                        <input class="form-check-input" type="radio" name="jk" id="perempuan" value=2>
                         <label class="form-check-label" for="perempuan">Perempuan</label>
                      </div>
                   </div>
@@ -249,7 +213,7 @@
                   <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                      <span class="d-block">Batal</span>
                   </button>
-                  <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                  <button type="submit" class="btn btn-primary ml-1">
                      <span class="d-block">Tambah</span>
                   </button>
                </div>
@@ -287,9 +251,82 @@
          </div>
       </div>
    </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
    <script src="{{ asset('vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
    <script src="{{ asset('js/main.js') }}"></script>
+
+    <script>
+    // Document Ready
+    document.addEventListener("DOMContentLoaded", function() {
+
+        getDataMahasiswa();
+
+        // form-tambah submit
+        document.getElementById("form-tambah").addEventListener("submit", function(e){
+            e.preventDefault();
+
+            var url = "{{URL('api/mahasiswa')}}";
+
+            var formTambah = document.getElementById('form-tambah');
+
+            axios.post(url, {
+                _token: "{{ csrf_token() }}",
+                nama: formTambah.nama.value,
+                tempat_lahir: formTambah.tempat_lahir.value,
+                tgl_lahir: formTambah.tgl_lahir.value,
+                jk: formTambah.jk.value,
+                alamat: formTambah.alamat.value
+            })
+            .then(function (response) {
+                getDataMahasiswa();
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        });
+
+    });
+
+    function getDataMahasiswa(){
+        var url = "{{URL('api/mahasiswa')}}";
+
+        axios.get(url).then(function (response) {
+            // handle success
+            let mahasiswa = response.data;
+
+            if(mahasiswa.data.length > 0){
+                var resultData = mahasiswa.data;
+                var bodyData = '';
+
+                resultData.forEach((row) => {
+                    var editUrl = url+'/'+row.id+"/edit";
+
+                    bodyData+='<tr>'
+                    bodyData+='<td>'+row.nama+'</td><td>'+row.tempat_lahir+'</td><td>'+row.jk+'</td>'+
+                    '<td>'+row.alamat+'</td>'+
+                    '<td><button class="btn btn-warning" data-id="3" data-bs-target="#edit-form" data-bs-toggle="modal">Edit</button>'+
+                    '<button class="btn btn-danger" data-bs-target="#delete-data" data-bs-toggle="modal">Hapus</button></td>';
+                    bodyData+='</tr>';
+                });
+
+                document.getElementById("table-mahasiswa").innerHTML = bodyData;
+
+            } else {
+                document.getElementById("table-mahasiswa").innerHTML = 'Data kosong';
+            }
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .then(function () {
+            // always executed
+        });
+    }
+
+    </script>
 </body>
 
 </html>

@@ -49,13 +49,13 @@ class MahasiswaController extends Controller
         }
 
         //save to database
-        $mahasiswa = Mahasiswa::create([
-            'nama'          => $request->nama,
-            'tempat_lahir'  => $request->tempat_lahir,
-            'tgl_lahir'     => $request->tgl_lahir,
-            'jk'            => $request->jk,
-            'alamat'        => $request->alamat
-        ]);
+        $mahasiswa = new Mahasiswa();
+        $mahasiswa->nama = $request->nama;
+        $mahasiswa->tempat_lahir = $request->tempat_lahir;
+        $mahasiswa->tgl_lahir = $request->tgl_lahir;
+        $mahasiswa->jk = $request->jk;
+        $mahasiswa->alamat = $request->alamat;
+        $mahasiswa->save();
 
         //success save to database
         if($mahasiswa) {
