@@ -122,7 +122,8 @@
                   <i data-feather="x"></i>
                </button>
             </div>
-            <form action="#">
+            <form action="#" id="form-edit">
+               <input type="hidden" name="id">
                <div class="modal-body">
                   <div class="form-group">
                      <label for="nama">Nama: </label>
@@ -158,7 +159,7 @@
                   <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                      <span class="d-block">Batal</span>
                   </button>
-                  <button type="button" class="btn btn-warning ml-1" data-bs-dismiss="modal">
+                  <button type="submit" class="btn btn-warning ml-1">
                      <span class="d-block">Edit</span>
                   </button>
                </div>
@@ -253,6 +254,7 @@
       </div>
    </div>
 
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
    <script src="{{ asset('vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
@@ -282,6 +284,33 @@
                 alamat: formTambah.alamat.value
             })
             .then(function (response) {
+                $("#add-form").modal('hide');
+
+                getDataMahasiswa();
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        });
+
+         // form-edit Submit
+         document.getElementById("form-edit").addEventListener("submit", function(e){
+            e.preventDefault();
+
+            var formEdit = document.getElementById('form-edit');
+            var url = "{{URL('api/mahasiswa')}}/"+formEdit.id.value;
+
+            axios.put(url, {
+                _token: "{{ csrf_token() }}",
+                nama: formEdit.nama.value,
+                tempat_lahir: formEdit.tempat_lahir.value,
+                tgl_lahir: formEdit.tgl_lahir.value,
+                jk: formEdit.jk.value,
+                alamat: formEdit.alamat.value
+            })
+            .then(function (response) {
+                $("#edit-form").modal('hide');
+
                 getDataMahasiswa();
             })
             .catch(function (error) {
@@ -296,6 +325,8 @@
 
             axios.delete(url);
             getDataMahasiswa();
+
+            $("#delete-data").modal('hide');
         });
 
     });
@@ -341,7 +372,26 @@
 
                 for (var i = 0; i < editBtn.length; i++) {
                     editBtn[i].addEventListener('click', function(event) {
-                        console.log(event.target.getAttribute('data-id'));
+
+                        var id = event.target.getAttribute('data-id');
+                        var url = "{{URL('api/mahasiswa')}}/"+id+"/edit";
+
+                        axios.get(url).then(function (response) {
+                            let mahasiswa = response.data;
+
+                            var formEdit = document.getElementById('form-edit');
+
+                            formEdit.id.value = mahasiswa.data.id;
+                            formEdit.nama.value = mahasiswa.data.nama;
+                            formEdit.tempat_lahir.value = mahasiswa.data.tempat_lahir;
+                            formEdit.tgl_lahir.value = mahasiswa.data.tgl_lahir;
+                            formEdit.jk.value = mahasiswa.data.jk;
+                            formEdit.alamat.value = mahasiswa.data.alamat;
+                        })
+                        .catch(function (error) {
+                            // handle error
+                            console.log(error);
+                        });
                     });
                 }
 
@@ -352,9 +402,6 @@
         .catch(function (error) {
             // handle error
             console.log(error);
-        })
-        .then(function () {
-            // always executed
         });
     }
 

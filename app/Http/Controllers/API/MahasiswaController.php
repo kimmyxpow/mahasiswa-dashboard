@@ -19,7 +19,9 @@ class MahasiswaController extends Controller
     public function index()
     {
         //get data from table mahasiswa
-        $mahasiswa = Mahasiswa::latest()->get();
+        $mahasiswa = Mahasiswa::selectRaw('*, (CASE WHEN jk=1 THEN "Laki-laki" WHEN jk=2 THEN "Perempuan" ELSE "Banci" END) as jk')
+            ->latest()
+            ->get();
 
         //make response JSON
         return response()->json([
@@ -120,13 +122,12 @@ class MahasiswaController extends Controller
         if($mahasiswa) {
 
             //update mahasiswa
-            $mahasiswa->update([
-                'nama'          => $request->nama,
-                'tempat_lahir'  => $request->tempat_lahir,
-                'tgl_lahir'     => $request->tgl_lahir,
-                'jk'            => $request->jk,
-                'alamat'        => $request->alamat
-            ]);
+            $mahasiswa->nama = $request->nama;
+            $mahasiswa->tempat_lahir = $request->tempat_lahir;
+            $mahasiswa->tgl_lahir = $request->tgl_lahir;
+            $mahasiswa->jk = $request->jk;
+            $mahasiswa->alamat = $request->alamat;
+            $mahasiswa->save();
 
             return response()->json([
                 'success' => true,
