@@ -122,7 +122,8 @@
                   <i data-feather="x"></i>
                </button>
             </div>
-            <form action="#">
+            <form action="#" id="form-edit">
+               <input type="hidden" name="id">
                <div class="modal-body">
                   <div class="form-group">
                      <label for="nama">Nama: </label>
@@ -158,7 +159,7 @@
                   <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                      <span class="d-block">Batal</span>
                   </button>
-                  <button type="button" class="btn btn-warning ml-1" data-bs-dismiss="modal">
+                  <button type="submit" class="btn btn-warning ml-1">
                      <span class="d-block">Edit</span>
                   </button>
                </div>
@@ -227,6 +228,7 @@
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
          <div class="modal-content">
+            <hapus id=0 />
             <div class="modal-header bg-danger">
                <h5 class="modal-title white" id="myModalLabel120">
                   Hapus Data
@@ -243,7 +245,7 @@
                   <i class="bx bx-x d-block d-sm-none"></i>
                   <span class="d-none d-sm-block">Close</span>
                </button>
-               <button type="button" class="btn btn-danger ml-1" data-bs-dismiss="modal">
+               <button type="button" class="btn btn-danger ml-1" id="confirm-hapus">
                   <i class="bx bx-check d-block d-sm-none"></i>
                   <span class="d-none d-sm-block">Accept</span>
                </button>
@@ -252,6 +254,7 @@
       </div>
    </div>
 
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
    <script src="{{ asset('vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
@@ -261,9 +264,10 @@
     // Document Ready
     document.addEventListener("DOMContentLoaded", function() {
 
+        // Tampil Data Mahasiswa
         getDataMahasiswa();
 
-        // form-tambah submit
+        // form-tambah Submit
         document.getElementById("form-tambah").addEventListener("submit", function(e){
             e.preventDefault();
 
@@ -280,11 +284,49 @@
                 alamat: formTambah.alamat.value
             })
             .then(function (response) {
+                $("#add-form").modal('hide');
+
                 getDataMahasiswa();
             })
             .catch(function (error) {
                 console.log(error);
             });
+        });
+
+         // form-edit Submit
+         document.getElementById("form-edit").addEventListener("submit", function(e){
+            e.preventDefault();
+
+            var formEdit = document.getElementById('form-edit');
+            var url = "{{URL('api/mahasiswa')}}/"+formEdit.id.value;
+
+            axios.put(url, {
+                _token: "{{ csrf_token() }}",
+                nama: formEdit.nama.value,
+                tempat_lahir: formEdit.tempat_lahir.value,
+                tgl_lahir: formEdit.tgl_lahir.value,
+                jk: formEdit.jk.value,
+                alamat: formEdit.alamat.value
+            })
+            .then(function (response) {
+                $("#edit-form").modal('hide');
+
+                getDataMahasiswa();
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        });
+
+        // Action Confirm Hapus
+        document.getElementById("confirm-hapus").addEventListener("click", function(e){
+            var id = document.getElementsByTagName("hapus")[0].getAttribute('id');
+            var url = "{{URL('api/mahasiswa')}}/"+id;
+
+            axios.delete(url);
+            getDataMahasiswa();
+
+            $("#delete-data").modal('hide');
         });
 
     });
@@ -306,12 +348,52 @@
                     bodyData+='<tr>'
                     bodyData+='<td>'+row.nama+'</td><td>'+row.tempat_lahir+'</td><td>'+row.jk+'</td>'+
                     '<td>'+row.alamat+'</td>'+
-                    '<td><button class="btn btn-warning" data-id="3" data-bs-target="#edit-form" data-bs-toggle="modal">Edit</button>'+
-                    '<button class="btn btn-danger" data-bs-target="#delete-data" data-bs-toggle="modal">Hapus</button></td>';
+                    '<td><button class="btn btn-warning btn-edit" data-id="'+row.id+'" data-bs-target="#edit-form" data-bs-toggle="modal">Edit</button>'+
+                    '<button class="btn btn-danger btn-hapus" data-id="'+row.id+'" data-bs-target="#delete-data" data-bs-toggle="modal">Hapus</button></td>';
                     bodyData+='</tr>';
                 });
 
                 document.getElementById("table-mahasiswa").innerHTML = bodyData;
+
+                // Tombol Hapus
+                var hapusBtn = document.querySelectorAll(".btn-hapus");
+
+                for (var i = 0; i < hapusBtn.length; i++) {
+                    hapusBtn[i].addEventListener('click', function(event) {
+
+                        // set data id yg ingin dihapus
+                        var id = event.target.getAttribute('data-id');
+                        document.getElementsByTagName("hapus")[0].setAttribute("id", id);
+                    });
+                }
+
+                // Tombol Edit
+                var editBtn = document.querySelectorAll(".btn-edit");
+
+                for (var i = 0; i < editBtn.length; i++) {
+                    editBtn[i].addEventListener('click', function(event) {
+
+                        var id = event.target.getAttribute('data-id');
+                        var url = "{{URL('api/mahasiswa')}}/"+id+"/edit";
+
+                        axios.get(url).then(function (response) {
+                            let mahasiswa = response.data;
+
+                            var formEdit = document.getElementById('form-edit');
+
+                            formEdit.id.value = mahasiswa.data.id;
+                            formEdit.nama.value = mahasiswa.data.nama;
+                            formEdit.tempat_lahir.value = mahasiswa.data.tempat_lahir;
+                            formEdit.tgl_lahir.value = mahasiswa.data.tgl_lahir;
+                            formEdit.jk.value = mahasiswa.data.jk;
+                            formEdit.alamat.value = mahasiswa.data.alamat;
+                        })
+                        .catch(function (error) {
+                            // handle error
+                            console.log(error);
+                        });
+                    });
+                }
 
             } else {
                 document.getElementById("table-mahasiswa").innerHTML = 'Data kosong';
@@ -320,9 +402,6 @@
         .catch(function (error) {
             // handle error
             console.log(error);
-        })
-        .then(function () {
-            // always executed
         });
     }
 
