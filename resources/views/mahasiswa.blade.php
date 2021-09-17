@@ -227,6 +227,7 @@
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
          <div class="modal-content">
+            <hapus id=0 />
             <div class="modal-header bg-danger">
                <h5 class="modal-title white" id="myModalLabel120">
                   Hapus Data
@@ -243,7 +244,7 @@
                   <i class="bx bx-x d-block d-sm-none"></i>
                   <span class="d-none d-sm-block">Close</span>
                </button>
-               <button type="button" class="btn btn-danger ml-1" data-bs-dismiss="modal">
+               <button type="button" class="btn btn-danger ml-1" id="confirm-hapus">
                   <i class="bx bx-check d-block d-sm-none"></i>
                   <span class="d-none d-sm-block">Accept</span>
                </button>
@@ -261,9 +262,10 @@
     // Document Ready
     document.addEventListener("DOMContentLoaded", function() {
 
+        // Tampil Data Mahasiswa
         getDataMahasiswa();
 
-        // form-tambah submit
+        // form-tambah Submit
         document.getElementById("form-tambah").addEventListener("submit", function(e){
             e.preventDefault();
 
@@ -287,6 +289,15 @@
             });
         });
 
+        // Action Confirm Hapus
+        document.getElementById("confirm-hapus").addEventListener("click", function(e){
+            var id = document.getElementsByTagName("hapus")[0].getAttribute('id');
+            var url = "{{URL('api/mahasiswa')}}/"+id;
+
+            axios.delete(url);
+            getDataMahasiswa();
+        });
+
     });
 
     function getDataMahasiswa(){
@@ -306,12 +317,33 @@
                     bodyData+='<tr>'
                     bodyData+='<td>'+row.nama+'</td><td>'+row.tempat_lahir+'</td><td>'+row.jk+'</td>'+
                     '<td>'+row.alamat+'</td>'+
-                    '<td><button class="btn btn-warning" data-id="3" data-bs-target="#edit-form" data-bs-toggle="modal">Edit</button>'+
-                    '<button class="btn btn-danger" data-bs-target="#delete-data" data-bs-toggle="modal">Hapus</button></td>';
+                    '<td><button class="btn btn-warning btn-edit" data-id="'+row.id+'" data-bs-target="#edit-form" data-bs-toggle="modal">Edit</button>'+
+                    '<button class="btn btn-danger btn-hapus" data-id="'+row.id+'" data-bs-target="#delete-data" data-bs-toggle="modal">Hapus</button></td>';
                     bodyData+='</tr>';
                 });
 
                 document.getElementById("table-mahasiswa").innerHTML = bodyData;
+
+                // Tombol Hapus
+                var hapusBtn = document.querySelectorAll(".btn-hapus");
+
+                for (var i = 0; i < hapusBtn.length; i++) {
+                    hapusBtn[i].addEventListener('click', function(event) {
+
+                        // set data id yg ingin dihapus
+                        var id = event.target.getAttribute('data-id');
+                        document.getElementsByTagName("hapus")[0].setAttribute("id", id);
+                    });
+                }
+
+                // Tombol Edit
+                var editBtn = document.querySelectorAll(".btn-edit");
+
+                for (var i = 0; i < editBtn.length; i++) {
+                    editBtn[i].addEventListener('click', function(event) {
+                        console.log(event.target.getAttribute('data-id'));
+                    });
+                }
 
             } else {
                 document.getElementById("table-mahasiswa").innerHTML = 'Data kosong';
