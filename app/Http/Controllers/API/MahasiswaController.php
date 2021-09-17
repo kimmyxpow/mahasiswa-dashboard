@@ -19,7 +19,7 @@ class MahasiswaController extends Controller
     public function index()
     {
         //get data from table mahasiswa
-        $mahasiswa = Mahasiswa::selectRaw('*, (CASE WHEN jk=1 THEN "Laki-laki" WHEN jk=2 THEN "Perempuan" ELSE "Banci" END) as jk')
+        $mahasiswa = Mahasiswa::selectRaw('*, CONCAT_WS(", ", tempat_lahir, tgl_lahir) AS ttl, (CASE WHEN jk=1 THEN "Laki-laki" WHEN jk=2 THEN "Perempuan" ELSE "Banci" END) as jk')
             ->latest()
             ->get();
 

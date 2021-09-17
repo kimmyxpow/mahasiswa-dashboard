@@ -346,7 +346,7 @@
                     var editUrl = url+'/'+row.id+"/edit";
 
                     bodyData+='<tr>'
-                    bodyData+='<td>'+row.nama+'</td><td>'+row.tempat_lahir+'</td><td>'+row.jk+'</td>'+
+                    bodyData+='<td>'+row.nama+'</td><td>'+row.ttl+'</td><td>'+row.jk+'</td>'+
                     '<td>'+row.alamat+'</td>'+
                     '<td><button class="btn btn-warning btn-edit" data-id="'+row.id+'" data-bs-target="#edit-form" data-bs-toggle="modal">Edit</button>'+
                     '<button class="btn btn-danger btn-hapus" data-id="'+row.id+'" data-bs-target="#delete-data" data-bs-toggle="modal">Hapus</button></td>';
