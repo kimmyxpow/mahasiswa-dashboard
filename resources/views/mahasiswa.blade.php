@@ -15,6 +15,7 @@
    <link rel="stylesheet" href="{{ asset('vendors/perfect-scrollbar/perfect-scrollbar.css') }}">
    <link rel="stylesheet" href="{{ asset('vendors/bootstrap-icons/bootstrap-icons.css') }}">
    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+   <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
@@ -75,19 +76,11 @@
                      <div class="card">
                         <div class="card-header">
                            <button class="btn btn-primary" data-bs-target="#add-form"
-                              data-bs-toggle="modal">Tambah</button>
+                              data-bs-toggle="modal" id="add-btn">Tambah</button>
                         </div>
                         <!-- ? Buat Alert -->
-                        <!-- <div class="card-body">
-                           <div class="alert alert-success alert-dismissible show fade">
-                              <i class="bi bi-check-circle"></i> Data berhasil ditambahkan.
-                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                          </div>
-                          <div class="alert alert-danger alert-dismissible show fade">
-                              <i class="bi bi-file-excel"></i> Data gagal ditambahkan.
-                              <button type="button" class="btn-close" data-bs-dismiss="alert"  aria-label="Close"></button>
-                          </div>
-                        </div> -->
+                        <div class="card-body" id="alert-wrapper">
+                        </div>
                         <div class="table-responsive">
                            <table class="table mb-0">
                               <thead class="thead-dark">
@@ -123,36 +116,36 @@
                </button>
             </div>
             <form action="#" id="form-edit">
-               <input type="hidden" name="id">
+               <input required type="hidden" name="id">
                <div class="modal-body">
                   <div class="form-group">
                      <label for="nama">Nama: </label>
-                     <input type="text" placeholder="Nama..." class="form-control" id="nama" name="nama">
+                     <input required type="text" placeholder="Nama..." class="form-control" id="nama1" name="nama">
                   </div>
                   <div class="form-group">
                      <label for="tempat-lahir">Tempat Lahir: </label>
-                     <input type="text" placeholder="Tempat Lahir..." class="form-control" id="tempat-lahir"
+                     <input required type="text" placeholder="Tempat Lahir..." class="form-control" id="tempat-lahir1"
                         name="tempat_lahir">
                   </div>
                   <div class="form-group">
                      <label for="tanggal-lahir">Tanggal Lahir: </label>
-                     <input type="date" placeholder="Tanggal Lahir" class="form-control" id="tanggal-lahir"
+                     <input required type="date" placeholder="Tanggal Lahir" class="form-control" id="tanggal-lahir1"
                         name="tgl_lahir">
                   </div>
                   <div class="form-group">
                      <label>Jenis Kelamin: </label>
                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="jk" id="laki-laki" value=1>
-                        <label class="form-check-label" for="laki-laki">Laki-Laki</label>
+                        <input required class="form-check-input" type="radio" name="jk" id="laki-laki1" value=1>
+                        <label class="form-check-label" for="laki-laki1">Laki-Laki</label>
                      </div>
                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="jk" id="perempuan" value=2>
-                        <label class="form-check-label" for="perempuan">Perempuan</label>
+                        <input required class="form-check-input" type="radio" name="jk" id="perempuan1" value=2>
+                        <label class="form-check-label" for="perempuan1">Perempuan</label>
                      </div>
                   </div>
                   <div class="form-group mb-3">
                      <label for="alamat" class="form-label">Alamat</label>
-                     <textarea class="form-control" id="alamat" rows="3" name="alamat"></textarea>
+                     <textarea required class="form-control" id="alamat1" rows="3" name="alamat"></textarea>
                   </div>
                </div>
                <div class="modal-footer">
@@ -182,32 +175,32 @@
                <div class="modal-body">
                   <div class="form-group">
                      <label for="nama">Nama: </label>
-                     <input type="text" placeholder="Nama..." class="form-control" id="nama" name="nama">
+                     <input required type="text" placeholder="Nama..." class="form-control" id="nama" name="nama">
                   </div>
                   <div class="form-group">
                      <label for="tempat-lahir">Tempat Lahir: </label>
-                     <input type="text" placeholder="Tempat Lahir..." class="form-control" id="tempat-lahir"
+                     <input required type="text" placeholder="Tempat Lahir..." class="form-control" id="tempat-lahir"
                         name="tempat_lahir">
                   </div>
                   <div class="form-group">
                      <label for="tanggal-lahir">Tanggal Lahir: </label>
-                     <input type="date" placeholder="Tanggal Lahir" class="form-control" id="tanggal-lahir"
+                     <input required type="date" placeholder="Tanggal Lahir" class="form-control" id="tanggal-lahir"
                         name="tgl_lahir">
                   </div>
                   <div class="form-group">
                      <label>Jenis Kelamin: </label>
                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="jk" id="laki-laki" value=1>
+                        <input required class="form-check-input" type="radio" name="jk" id="laki-laki" value=1>
                         <label class="form-check-label" for="laki-laki">Laki-Laki</label>
                      </div>
                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="jk" id="perempuan" value=2>
+                        <input required class="form-check-input" type="radio" name="jk" id="perempuan" value=2>
                         <label class="form-check-label" for="perempuan">Perempuan</label>
                      </div>
                   </div>
                   <div class="form-group mb-3">
                      <label for="alamat" class="form-label">Alamat</label>
-                     <textarea class="form-control" id="alamat" rows="3" name="alamat"></textarea>
+                     <textarea required class="form-control" id="alamat" rows="3" name="alamat"></textarea>
                   </div>
                </div>
                <div class="modal-footer">
@@ -253,7 +246,9 @@
          </div>
       </div>
    </div>
-
+   <div class="loader-wrapper">
+      <div class="lds-dual-ring"></div>
+   </div>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
    <script src="{{ asset('vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
@@ -261,6 +256,7 @@
    <script src="{{ asset('js/main.js') }}"></script>
 
     <script>
+      const loaderWrapper = document.querySelector('.loader-wrapper');
     // Document Ready
     document.addEventListener("DOMContentLoaded", function() {
 
@@ -270,6 +266,7 @@
         // form-tambah Submit
         document.getElementById("form-tambah").addEventListener("submit", function(e){
             e.preventDefault();
+            loaderWrapper.classList.add('show');
 
             var url = "{{URL('api/mahasiswa')}}";
 
@@ -284,11 +281,14 @@
                 alamat: formTambah.alamat.value
             })
             .then(function (response) {
-                $("#add-form").modal('hide');
-
-                getDataMahasiswa();
+               getDataMahasiswa();
+               setAlert("Data berhasil ditambahkan!", "success", "check-circle")
+               formTambah.reset();
+               $("#add-form").modal('hide');
             })
             .catch(function (error) {
+               loaderWrapper.classList.remove('show');
+               setAlert("Data gagal ditambahkan!", "danger", "excel")
                 console.log(error);
             });
         });
@@ -296,7 +296,8 @@
          // form-edit Submit
          document.getElementById("form-edit").addEventListener("submit", function(e){
             e.preventDefault();
-
+            loaderWrapper.classList.add('show');
+            
             var formEdit = document.getElementById('form-edit');
             var url = "{{URL('api/mahasiswa')}}/"+formEdit.id.value;
 
@@ -309,11 +310,13 @@
                 alamat: formEdit.alamat.value
             })
             .then(function (response) {
-                $("#edit-form").modal('hide');
-
-                getDataMahasiswa();
+               getDataMahasiswa();
+               setAlert("Data berhasil diedit!", "success", "check-circle")
+               $("#edit-form").modal('hide');
             })
             .catch(function (error) {
+               loaderWrapper.classList.remove('show');
+               setAlert("Data gagal diedit!", "danger", "excel")
                 console.log(error);
             });
         });
@@ -322,10 +325,10 @@
         document.getElementById("confirm-hapus").addEventListener("click", function(e){
             var id = document.getElementsByTagName("hapus")[0].getAttribute('id');
             var url = "{{URL('api/mahasiswa')}}/"+id;
-
+            loaderWrapper.classList.add('show');
             axios.delete(url);
             getDataMahasiswa();
-
+            setAlert("Data berhasil dihapus!", "success", "excel")
             $("#delete-data").modal('hide');
         });
 
@@ -354,6 +357,7 @@
                 });
 
                 document.getElementById("table-mahasiswa").innerHTML = bodyData;
+                loaderWrapper.classList.remove('show');
 
                 // Tombol Hapus
                 var hapusBtn = document.querySelectorAll(".btn-hapus");
@@ -372,6 +376,7 @@
 
                 for (var i = 0; i < editBtn.length; i++) {
                     editBtn[i].addEventListener('click', function(event) {
+                     loaderWrapper.classList.add('show');
 
                         var id = event.target.getAttribute('data-id');
                         var url = "{{URL('api/mahasiswa')}}/"+id+"/edit";
@@ -387,22 +392,30 @@
                             formEdit.tgl_lahir.value = mahasiswa.data.tgl_lahir;
                             formEdit.jk.value = mahasiswa.data.jk;
                             formEdit.alamat.value = mahasiswa.data.alamat;
+                            loaderWrapper.classList.remove('show');
                         })
                         .catch(function (error) {
                             // handle error
+                            loaderWrapper.classList.remove('show');
                             console.log(error);
                         });
                     });
                 }
-
+                
             } else {
                 document.getElementById("table-mahasiswa").innerHTML = 'Data kosong';
+                loaderWrapper.classList.remove('show');
             }
         })
         .catch(function (error) {
             // handle error
+            loaderWrapper.classList.remove('show');
             console.log(error);
         });
+    }
+
+    function setAlert(message, type, icon) {
+       document.querySelector('#alert-wrapper').innerHTML = `<div class="alert alert-${type} alert-dismissible show fade"><i class="bi bi-${icon}"></i> ${message}.<button type="button" class="btn-close" data-bs-dismiss="alert"  aria-label="Close"></button></div>`
     }
 
     </script>
