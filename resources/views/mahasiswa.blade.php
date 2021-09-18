@@ -75,8 +75,8 @@
                   <div class="col-12">
                      <div class="card">
                         <div class="card-header">
-                           <button class="btn btn-primary" data-bs-target="#add-form"
-                              data-bs-toggle="modal" id="add-btn">Tambah</button>
+                           <button class="btn btn-primary" data-bs-target="#add-form" data-bs-toggle="modal"
+                              id="add-btn">Tambah</button>
                         </div>
                         <!-- ? Buat Alert -->
                         <div class="card-body" id="alert-wrapper">
@@ -158,11 +158,12 @@
                </div>
             </form>
          </div>
-       </div>
+      </div>
    </div>
 
    <!-- ? Modal Tambah -->
-   <div class="modal fade text-left" id="add-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+   <div class="modal fade text-left" id="add-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+      aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
          <div class="modal-content">
             <div class="modal-header bg-primary">
@@ -255,16 +256,17 @@
    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
    <script src="{{ asset('js/main.js') }}"></script>
 
-    <script>
+   <script>
+      //   Get Loader
       const loaderWrapper = document.querySelector('.loader-wrapper');
-    // Document Ready
-    document.addEventListener("DOMContentLoaded", function() {
+      // Document Ready
+      document.addEventListener("DOMContentLoaded", function () {
 
-        // Tampil Data Mahasiswa
-        getDataMahasiswa();
+         // Tampil Data Mahasiswa
+         getDataMahasiswa();
 
-        // form-tambah Submit
-        document.getElementById("form-tambah").addEventListener("submit", function(e){
+         // form-tambah Submit
+         document.getElementById("form-tambah").addEventListener("submit", function (e) {
             e.preventDefault();
             loaderWrapper.classList.add('show');
 
@@ -273,152 +275,162 @@
             var formTambah = document.getElementById('form-tambah');
 
             axios.post(url, {
-                _token: "{{ csrf_token() }}",
-                nama: formTambah.nama.value,
-                tempat_lahir: formTambah.tempat_lahir.value,
-                tgl_lahir: formTambah.tgl_lahir.value,
-                jk: formTambah.jk.value,
-                alamat: formTambah.alamat.value
-            })
-            .then(function (response) {
-               getDataMahasiswa();
-               setAlert("Data berhasil ditambahkan!", "success", "check-circle")
-               formTambah.reset();
-               $("#add-form").modal('hide');
-            })
-            .catch(function (error) {
-               loaderWrapper.classList.remove('show');
-               setAlert("Data gagal ditambahkan!", "danger", "excel")
-                console.log(error);
-            });
-        });
+                  _token: "{{ csrf_token() }}",
+                  nama: formTambah.nama.value,
+                  tempat_lahir: formTambah.tempat_lahir.value,
+                  tgl_lahir: formTambah.tgl_lahir.value,
+                  jk: formTambah.jk.value,
+                  alamat: formTambah.alamat.value
+               })
+               .then(function (response) {
+                  getDataMahasiswa();
+                  setAlert("Data berhasil ditambahkan!", "success", "check-circle")
+                  formTambah.reset();
+                  $("#add-form").modal('hide');
+               })
+               .catch(function (error) {
+                  loaderWrapper.classList.remove('show');
+                  setAlert("Data gagal ditambahkan!", "danger", "excel")
+                  console.log(error);
+               });
+         });
 
          // form-edit Submit
-         document.getElementById("form-edit").addEventListener("submit", function(e){
+         document.getElementById("form-edit").addEventListener("submit", function (e) {
             e.preventDefault();
             loaderWrapper.classList.add('show');
-            
+
             var formEdit = document.getElementById('form-edit');
-            var url = "{{URL('api/mahasiswa')}}/"+formEdit.id.value;
+            var url = "{{ URL('api/mahasiswa') }}/" + formEdit.id.value;
 
             axios.put(url, {
-                _token: "{{ csrf_token() }}",
-                nama: formEdit.nama.value,
-                tempat_lahir: formEdit.tempat_lahir.value,
-                tgl_lahir: formEdit.tgl_lahir.value,
-                jk: formEdit.jk.value,
-                alamat: formEdit.alamat.value
-            })
-            .then(function (response) {
-               getDataMahasiswa();
-               setAlert("Data berhasil diedit!", "success", "check-circle")
-               $("#edit-form").modal('hide');
-            })
-            .catch(function (error) {
-               loaderWrapper.classList.remove('show');
-               setAlert("Data gagal diedit!", "danger", "excel")
-                console.log(error);
-            });
-        });
+                  _token: "{{ csrf_token() }}",
+                  nama: formEdit.nama.value,
+                  tempat_lahir: formEdit.tempat_lahir.value,
+                  tgl_lahir: formEdit.tgl_lahir.value,
+                  jk: formEdit.jk.value,
+                  alamat: formEdit.alamat.value
+               })
+               .then(function (response) {
+                  getDataMahasiswa();
+                  setAlert("Data berhasil diedit!", "success", "check-circle")
+                  $("#edit-form").modal('hide');
+               })
+               .catch(function (error) {
+                  loaderWrapper.classList.remove('show');
+                  setAlert("Data gagal diedit!", "danger", "excel")
+                  console.log(error);
+               });
+         });
 
-        // Action Confirm Hapus
-        document.getElementById("confirm-hapus").addEventListener("click", function(e){
+         // Action Confirm Hapus
+         document.getElementById("confirm-hapus").addEventListener("click", function (e) {
             var id = document.getElementsByTagName("hapus")[0].getAttribute('id');
-            var url = "{{URL('api/mahasiswa')}}/"+id;
+            var url = "{{URL('api/mahasiswa')}}/" + id;
             loaderWrapper.classList.add('show');
             axios.delete(url);
             getDataMahasiswa();
             setAlert("Data berhasil dihapus!", "success", "excel")
             $("#delete-data").modal('hide');
-        });
+         });
 
-    });
+      });
 
-    function getDataMahasiswa(){
-        var url = "{{URL('api/mahasiswa')}}";
+      function getDataMahasiswa() {
+         var url = "{{URL('api/mahasiswa')}}";
 
-        axios.get(url).then(function (response) {
-            // handle success
-            let mahasiswa = response.data;
+         axios.get(url).then(function (response) {
+               // handle success
+               let mahasiswa = response.data;
 
-            if(mahasiswa.data.length > 0){
-                var resultData = mahasiswa.data;
-                var bodyData = '';
+               if (mahasiswa.data.length > 0) {
+                  var resultData = mahasiswa.data;
+                  var bodyData = '';
 
-                resultData.forEach((row) => {
-                    var editUrl = url+'/'+row.id+"/edit";
+                  resultData.forEach((row) => {
+                     var editUrl = url + '/' + row.id + "/edit";
 
-                    bodyData+='<tr>'
-                    bodyData+='<td>'+row.nama+'</td><td>'+row.ttl+'</td><td>'+row.jk+'</td>'+
-                    '<td>'+row.alamat+'</td>'+
-                    '<td><button class="btn btn-warning btn-edit" data-id="'+row.id+'" data-bs-target="#edit-form" data-bs-toggle="modal">Edit</button>'+
-                    '<button class="btn btn-danger btn-hapus" data-id="'+row.id+'" data-bs-target="#delete-data" data-bs-toggle="modal">Hapus</button></td>';
-                    bodyData+='</tr>';
-                });
+                     bodyData += '<tr>'
+                     bodyData += '<td>' + row.nama + '</td><td>' + row.ttl + '</td><td>' + row.jk + '</td>' +
+                        '<td>' + row.alamat + '</td>' +
+                        '<td><button class="btn btn-warning btn-edit" data-id="' + row.id +
+                        '" data-bs-target="#edit-form" data-bs-toggle="modal">Edit</button>' +
+                        '<button class="btn btn-danger btn-hapus" data-id="' + row.id +
+                        '" data-bs-target="#delete-data" data-bs-toggle="modal">Hapus</button></td>';
+                     bodyData += '</tr>';
+                  });
 
-                document.getElementById("table-mahasiswa").innerHTML = bodyData;
-                loaderWrapper.classList.remove('show');
+                  document.getElementById("table-mahasiswa").innerHTML = bodyData;
 
-                // Tombol Hapus
-                var hapusBtn = document.querySelectorAll(".btn-hapus");
+                  //   Remove Loader
+                  loaderWrapper.classList.remove('show');
 
-                for (var i = 0; i < hapusBtn.length; i++) {
-                    hapusBtn[i].addEventListener('click', function(event) {
+                  // Tombol Hapus
+                  var hapusBtn = document.querySelectorAll(".btn-hapus");
+
+                  for (var i = 0; i < hapusBtn.length; i++) {
+                     hapusBtn[i].addEventListener('click', function (event) {
 
                         // set data id yg ingin dihapus
                         var id = event.target.getAttribute('data-id');
                         document.getElementsByTagName("hapus")[0].setAttribute("id", id);
-                    });
-                }
+                     });
+                  }
 
-                // Tombol Edit
-                var editBtn = document.querySelectorAll(".btn-edit");
+                  // Tombol Edit
+                  var editBtn = document.querySelectorAll(".btn-edit");
 
-                for (var i = 0; i < editBtn.length; i++) {
-                    editBtn[i].addEventListener('click', function(event) {
-                     loaderWrapper.classList.add('show');
+                  for (var i = 0; i < editBtn.length; i++) {
+                     editBtn[i].addEventListener('click', function (event) {
+                        loaderWrapper.classList.add('show');
 
                         var id = event.target.getAttribute('data-id');
-                        var url = "{{URL('api/mahasiswa')}}/"+id+"/edit";
+                        var url = "{{URL('api/mahasiswa')}}/" + id + "/edit";
 
                         axios.get(url).then(function (response) {
-                            let mahasiswa = response.data;
+                              let mahasiswa = response.data;
 
-                            var formEdit = document.getElementById('form-edit');
+                              var formEdit = document.getElementById('form-edit');
 
-                            formEdit.id.value = mahasiswa.data.id;
-                            formEdit.nama.value = mahasiswa.data.nama;
-                            formEdit.tempat_lahir.value = mahasiswa.data.tempat_lahir;
-                            formEdit.tgl_lahir.value = mahasiswa.data.tgl_lahir;
-                            formEdit.jk.value = mahasiswa.data.jk;
-                            formEdit.alamat.value = mahasiswa.data.alamat;
-                            loaderWrapper.classList.remove('show');
-                        })
-                        .catch(function (error) {
-                            // handle error
-                            loaderWrapper.classList.remove('show');
-                            console.log(error);
-                        });
-                    });
-                }
-                
-            } else {
-                document.getElementById("table-mahasiswa").innerHTML = 'Data kosong';
-                loaderWrapper.classList.remove('show');
-            }
-        })
-        .catch(function (error) {
-            // handle error
-            loaderWrapper.classList.remove('show');
-            console.log(error);
-        });
-    }
+                              formEdit.id.value = mahasiswa.data.id;
+                              formEdit.nama.value = mahasiswa.data.nama;
+                              formEdit.tempat_lahir.value = mahasiswa.data.tempat_lahir;
+                              formEdit.tgl_lahir.value = mahasiswa.data.tgl_lahir;
+                              formEdit.jk.value = mahasiswa.data.jk;
+                              formEdit.alamat.value = mahasiswa.data.alamat;
 
-    function setAlert(message, type, icon) {
-       document.querySelector('#alert-wrapper').innerHTML = `<div class="alert alert-${type} alert-dismissible show fade"><i class="bi bi-${icon}"></i> ${message}.<button type="button" class="btn-close" data-bs-dismiss="alert"  aria-label="Close"></button></div>`
-    }
+                              //   Remove Loader
+                              loaderWrapper.classList.remove('show');
+                           })
+                           .catch(function (error) {
+                              //   Remove Loader
+                              loaderWrapper.classList.remove('show');
+                              // handle error
+                              console.log(error);
+                           });
+                     });
+                  }
 
-    </script>
+               } else {
+                  document.getElementById("table-mahasiswa").innerHTML = 'Data kosong';
+                  //   Remove Loader
+                  loaderWrapper.classList.remove('show');
+               }
+            })
+            .catch(function (error) {
+               //   Remove Loader
+               loaderWrapper.classList.remove('show');
+               // handle error
+               console.log(error);
+            });
+      }
+
+      //  For alert
+      function setAlert(message, type, icon) {
+         document.querySelector('#alert-wrapper').innerHTML =
+            `<div class="alert alert-${type} alert-dismissible show fade"><i class="bi bi-${icon}"></i> ${message}.<button type="button" class="btn-close" data-bs-dismiss="alert"  aria-label="Close"></button></div>`
+      }
+   </script>
 </body>
 
 </html>
