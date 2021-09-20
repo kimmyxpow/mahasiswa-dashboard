@@ -85,11 +85,12 @@
                            <table class="table mb-0">
                               <thead class="thead-dark">
                                  <tr>
-                                    <th>NAMA</th>
+                                    <th class="text-center">#</th>
+                                    <th>Nama</th>
                                     <th>TTL</th>
-                                    <th>JENIS KELAMIN</th>
-                                    <th>ALAMAT</th>
-                                    <th>ACTION</th>
+                                    <th>Jenis kelamin</th>
+                                    <th>Alamat</th>
+                                    <th>Action</th>
                                  </tr>
                               </thead>
                               <tbody id="table-mahasiswa">
@@ -347,15 +348,17 @@
                   var resultData = mahasiswa.data;
                   var bodyData = '';
 
+                  var no = 1;
+
                   resultData.forEach((row) => {
                      var editUrl = url + '/' + row.id + "/edit";
 
                      bodyData += '<tr>'
-                     bodyData += '<td>' + row.nama + '</td><td>' + row.ttl + '</td><td>' + row.jk + '</td>' +
+                     bodyData += '<td class="text-center">' + no++ + '</td><td>' + row.nama + '</td><td>' + row.ttl + '</td><td>' + row.jk + '</td>' +
                         '<td>' + row.alamat + '</td>' +
-                        '<td><button class="btn btn-warning btn-edit" data-id="' + row.id +
+                        '<td><button class="btn btn-sm btn-warning btn-edit" data-id="' + row.id +
                         '" data-bs-target="#edit-form" data-bs-toggle="modal">Edit</button>' +
-                        '<button class="btn btn-danger btn-hapus" data-id="' + row.id +
+                        '<button class="btn btn-sm btn-danger btn-hapus" data-id="' + row.id +
                         '" data-bs-target="#delete-data" data-bs-toggle="modal">Hapus</button></td>';
                      bodyData += '</tr>';
                   });
