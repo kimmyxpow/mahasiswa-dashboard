@@ -266,6 +266,15 @@
          // Tampil Data Mahasiswa
          getDataMahasiswa();
 
+        // Focus when modal show
+        $('#add-form').on('shown.bs.modal', function() {
+             $(this).find('input[type="text"]').first().focus();
+        })
+
+        $('#edit-form').on('shown.bs.modal', function() {
+             $(this).find('input[type="text"]').first().focus();
+        })
+
          // form-tambah Submit
          document.getElementById("form-tambah").addEventListener("submit", function (e) {
             e.preventDefault();
