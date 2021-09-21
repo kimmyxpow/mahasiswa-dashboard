@@ -384,10 +384,10 @@
                             bodyData += '<td class="text-center">' + no++ + '</td><td>' + row.nama +
                                 '</td><td>' + row.ttl + '</td><td>' + row.jk + '</td>' +
                                 '<td>' + row.alamat + '</td>' +
-                                '<td class="d-flex gap-1"><button class="btn btn-sm btn-warning btn-edit" data-id="' + row.id +
-                                '" data-bs-target="#edit-form" data-bs-toggle="modal">Edit</button> ' +
-                                '<button class="btn btn-sm btn-danger btn-hapus" data-id="' + row.id +
-                                '" data-bs-target="#delete-data" data-bs-toggle="modal">Hapus</button></td>';
+                                '<td class="d-flex gap-1"><button class="btn btn-sm btn-warning btn-edit d-flex align-items-center gap-1" data-id="' + row.id +
+                                '" data-bs-target="#edit-form" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i> Edit</button> ' +
+                                '<button class="btn btn-sm btn-danger btn-hapus d-flex align-items-center gap-1" data-id="' + row.id +
+                                '" data-bs-target="#delete-data" data-bs-toggle="modal"><i class="bi bi-trash"></i> Hapus</button></td>';
                             bodyData += '</tr>';
                         });
 
