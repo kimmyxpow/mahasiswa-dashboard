@@ -126,23 +126,23 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nama">Nama: </label>
-                            <input minlength="3" maxlength="50" required type="text" placeholder="Nama..." class="form-control" id="nama1"
-                                name="nama">
+                            <input minlength="3" maxlength="50" required type="text" placeholder="Nama..."
+                                class="form-control" id="nama1" name="nama">
                         </div>
                         <div class="form-group">
                             <label for="tempat-lahir">Tempat Lahir: </label>
-                            <input minlength="3" maxlength="50" required type="text" placeholder="Tempat Lahir..." class="form-control"
-                                id="tempat-lahir1" name="tempat_lahir">
+                            <input minlength="3" maxlength="50" required type="text" placeholder="Tempat Lahir..."
+                                class="form-control" id="tempat-lahir1" name="tempat_lahir">
                         </div>
                         <div class="form-group">
                             <label for="tanggal-lahir">Tanggal Lahir: </label>
-                            <input  required type="date" placeholder="Tanggal Lahir" class="form-control"
+                            <input required type="date" placeholder="Tanggal Lahir" class="form-control"
                                 id="tanggal-lahir1" name="tgl_lahir">
                         </div>
                         <div class="form-group">
                             <label>Jenis Kelamin: </label>
                             <div class="form-check">
-                                <input  required class="form-check-input" type="radio" name="jk" id="laki-laki1" value=1>
+                                <input required class="form-check-input" type="radio" name="jk" id="laki-laki1" value=1>
                                 <label class="form-check-label" for="laki-laki1">Laki-Laki</label>
                             </div>
                             <div class="form-check">
@@ -152,7 +152,8 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="alamat" class="form-label">Alamat</label>
-                            <textarea minlength="5" maxlength="200" required class="form-control" id="alamat1" rows="3" name="alamat"></textarea>
+                            <textarea minlength="5" maxlength="200" required class="form-control" id="alamat1" rows="3"
+                                name="alamat"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -183,13 +184,13 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nama">Nama: </label>
-                            <input required minlength="3" maxlength="50" type="text" placeholder="Nama..." class="form-control" id="nama"
-                                name="nama">
+                            <input required minlength="3" maxlength="50" type="text" placeholder="Nama..."
+                                class="form-control" id="nama" name="nama">
                         </div>
                         <div class="form-group">
                             <label for="tempat-lahir">Tempat Lahir: </label>
-                            <input required minlength="3" maxlength="50" type="text" placeholder="Tempat Lahir..." class="form-control"
-                                id="tempat-lahir" name="tempat_lahir">
+                            <input required minlength="3" maxlength="50" type="text" placeholder="Tempat Lahir..."
+                                class="form-control" id="tempat-lahir" name="tempat_lahir">
                         </div>
                         <div class="form-group">
                             <label for="tanggal-lahir">Tanggal Lahir: </label>
@@ -209,7 +210,8 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="alamat" class="form-label">Alamat</label>
-                            <textarea minlength="5" maxlength="200" required class="form-control" id="alamat" rows="3" name="alamat"></textarea>
+                            <textarea minlength="5" maxlength="200" required class="form-control" id="alamat" rows="3"
+                                name="alamat"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -298,7 +300,7 @@
                         tempat_lahir: formTambah.tempat_lahir.value,
                         tgl_lahir: formTambah.tgl_lahir.value,
                         jk: formTambah.jk.value,
-                        alamat: formTambah.alamat.value,
+                        alamat: formTambah.alamat.value
                     })
                     .then(function (response) {
                         getDataMahasiswa();
@@ -308,7 +310,7 @@
                     })
                     .catch(function (error) {
                         loaderWrapper.classList.remove('show');
-                        setAlert("Data gagal ditambahkan!", "danger", "file-excel")
+                        setAlert("Data gagal ditambahkan!", "danger", "excel")
                         console.log(error);
                     });
             });
@@ -336,7 +338,7 @@
                     })
                     .catch(function (error) {
                         loaderWrapper.classList.remove('show');
-                        setAlert("Data gagal diedit!", "danger", "file-excel")
+                        setAlert("Data gagal diedit!", "danger", "excel")
                         console.log(error);
                     });
             });
@@ -348,7 +350,7 @@
                 loaderWrapper.classList.add('show');
                 axios.delete(url);
                 getDataMahasiswa();
-                setAlert("Data berhasil dihapus!", "success", "check-circle")
+                setAlert("Data berhasil dihapus!", "success", "excel")
                 $("#delete-data").modal('hide');
             });
 
@@ -384,8 +386,8 @@
                             bodyData += '<td class="text-center">' + no++ + '</td><td>' + row.nama +
                                 '</td><td>' + row.ttl + '</td><td>' + row.jk + '</td>' +
                                 '<td>' + row.alamat + '</td>' +
-                                '<td class="d-flex gap-1"><button class="btn btn-sm btn-warning btn-edit" data-id="' + row.id +
-                                '" data-bs-target="#edit-form" data-bs-toggle="modal">Edit</button> ' +
+                                '<td><button class="btn btn-sm btn-warning btn-edit" data-id="' + row.id +
+                                '" data-bs-target="#edit-form" data-bs-toggle="modal">Edit</button>' +
                                 '<button class="btn btn-sm btn-danger btn-hapus" data-id="' + row.id +
                                 '" data-bs-target="#delete-data" data-bs-toggle="modal">Hapus</button></td>';
                             bodyData += '</tr>';
