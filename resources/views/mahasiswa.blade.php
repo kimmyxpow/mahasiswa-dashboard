@@ -98,6 +98,11 @@
                            </table>
                         </div>
                      </div>
+                     <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-primary justify-content-center">
+
+                        </ul>
+                    </nav>
                   </div>
                </div>
             </section>
@@ -266,7 +271,7 @@
          // Tampil Data Mahasiswa
          getDataMahasiswa();
 
-        // Focus when modal show
+        // Focus on first input when modal show
         $('#add-form').on('shown.bs.modal', function() {
              $(this).find('input[type="text"]').first().focus();
         })
@@ -344,20 +349,30 @@
             $("#delete-data").modal('hide');
          });
 
+        // Page link
+        $(document).on('click', 'a.page-link', function(e) {
+            e.preventDefault();
+
+            // modify the URL by href
+            window.history.pushState('','',$(this).attr('href'));
+
+            getDataMahasiswa();
+        });
+
       });
 
       function getDataMahasiswa() {
-         var url = "{{URL('api/mahasiswa')}}";
+         var url = "{{URL('api/mahasiswa')}}"+window.location.search;
 
          axios.get(url).then(function (response) {
                // handle success
                let mahasiswa = response.data;
 
-               if (mahasiswa.data.length > 0) {
+               if (mahasiswa.total > 0) {
                   var resultData = mahasiswa.data;
                   var bodyData = '';
 
-                  var no = 1;
+                  var no = mahasiswa.from;
 
                   resultData.forEach((row) => {
                      var editUrl = url + '/' + row.id + "/edit";
@@ -421,6 +436,54 @@
                               console.log(error);
                            });
                      });
+                  }
+
+                  // Pagination
+                  if (mahasiswa.last_page > 1) {
+                    var pageData = '';
+
+                    if(mahasiswa.current_page == 1){ // untuk first & prev page
+                        var firstPage = 'disabled';
+                        var firstUrl = "javascript:;";
+                        var prevUrl = "javascript:;";
+                    } else {
+                        var firstPage = '';
+                        var firstUrl = "{{URL('dashboard/mahasiswa')}}?page=1";
+                        var prevUrl = "{{URL('dashboard/mahasiswa')}}?page="+(mahasiswa.current_page-1);
+                    }
+
+                    if(mahasiswa.current_page == mahasiswa.last_page) { // untuk next & last page
+                        var lastPage = 'disabled';
+                        var nextUrl = "javascript:;";
+                        var lastUrl = "javascript:;";
+                    } else {
+                        var lastPage = '';
+                        var nextUrl = "{{URL('dashboard/mahasiswa')}}?page="+(mahasiswa.current_page+1);
+                        var lastUrl = "{{URL('dashboard/mahasiswa')}}?page="+mahasiswa.last_page;
+                    }
+
+                    //
+                    pageData += '<li class="page-item '+firstPage+'"><a class="page-link" href="'+firstUrl+'">First</a></li>'+
+                                '<li class="page-item '+firstPage+'"><a class="page-link" href="'+prevUrl+'">Previous</a></li>';
+
+                    for(var i=1; i <= mahasiswa.last_page; i++){
+
+                        var activePage = '';
+                        var pageUrl = "{{URL('dashboard/mahasiswa')}}?page="+i;
+
+                        if(mahasiswa.current_page == i) { // untuk current page
+                            activePage = 'active';
+                            pageUrl = "javascript:;";
+                        }
+
+                        pageData += '<li class="page-item '+activePage+'"><a class="page-link" href="'+pageUrl+'">'+i+'</a></li>';
+                    }
+
+                    pageData += '<li class="page-item '+lastPage+'"><a class="page-link" href="'+nextUrl+'">Next</a></li>'+
+                                '<li class="page-item '+lastPage+'"><a class="page-link" href="'+lastUrl+'">Last</a></li>';
+
+                    $(".pagination").html('').append(pageData);
+
                   }
 
                } else {
